@@ -1,5 +1,5 @@
 from django.forms import ModelForm, DateInput
-from cal.models import Event
+from cal.models import *
 
 class EventForm(ModelForm):
   class Meta:
@@ -16,3 +16,11 @@ class EventForm(ModelForm):
     # input_formats to parse HTML5 datetime-local input to datetime field
     self.fields['start_time'].input_formats = ('%Y-%m-%dT%H:%M',)
     self.fields['end_time'].input_formats = ('%Y-%m-%dT%H:%M',)
+
+
+class EventForm(ModelForm):
+  class Meta:
+    model = workteam_activity
+    fields = {
+      'state'
+    }

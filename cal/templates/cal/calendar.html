@@ -2,9 +2,76 @@
 {% load static %}
 
 {% block content %}
-<div class="clearfix">
-	<a class="btn btn-info left" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Previous Month </a>
-	<a class="btn btn-info right" href="{% url 'cal:calendar' %}?{{ next_month }}"> Next Month </a>
+<div class="container">
+
+	<div class="clearfix">
+		<a class="btn btn-info left" href="{% url 'cal:calendar' %}?{{ prev_month }}"> Previous Month </a>
+		<a class="btn btn-info right" href="{% url 'cal:calendar' %}?{{ next_month }}"> Next Month </a>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<div>
+				<div>CAlendario</div>
+				{{calendar}}
+				<div>FIN</div>
+
+			</div>
+		</div>
+		<div class="col-sm-6">
+			fechas
+		</div>
+	</div>
+	<div class="row">
+		<div class="">
+			{% for event, activities in events.items %}
+
+			<h1>{{ event }}</h1>
+			{% for activity in activities %}
+			<div>
+				<input type="checkbox" id="activity-{{ activity.id }}" value="{{ activity.state }}">
+				<label for="activity-{{ activity.id }}">{{ activity.activity }}</label>
+			</div>
+			{% endfor %}
+			{% endfor %}
+		</div>
+	</div>
 </div>
-{{ calendar }}
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+	var checkboxes = document.getElementsByTagName('input');
+
+	for (var i = 0; i < checkboxes.length; i++) {
+		if (checkboxes[i].type == 'checkbox') {
+			if (checkboxes[i].value == 'False') {
+				var state = false
+			} else {
+				var state = true
+			}
+			checkboxes[i].checked = state;
+		}
+	}
+
+	$(':checkbox').change(function () {
+
+		console.log(this.id);
+		console.log($(this).attr('id'));
+		$.ajax({
+			url: '/calendar/',
+			method: 'GET',
+			data: {
+				activity: $(this).attr('id')
+			},
+			success: function (data) {
+				alert("Éxito")
+			},
+			error: function (error) {
+				console.log(error);
+				console.log("error");
+			}
+		});
+
+	}); 
+</script>
 {% endblock %}

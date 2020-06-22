@@ -74,7 +74,7 @@ class WorkTeam(models.Model):
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.challenge
+        return "Equipo de " + str(self.challenge)
 
 
 class workteam_activity(models.Model):
